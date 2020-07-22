@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import User from './components/User'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -20,6 +21,8 @@ const App = () => {
 
   const [ notificationMessage, setNotificationMessage ] = useState('')
   const [ notificationIsError, setNotificationIsError ] = useState(false)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     async function getBlogs() {
@@ -48,6 +51,7 @@ const App = () => {
     event.preventDefault()
     try {
       const blog = await blogService.create({ author, title, url })
+      blogFormRef.current.toggleVisibility()
       setBlogs(blogs.concat(blog))
       setNotification(`Added ${blog.title} by ${blog.author}`)
       setAuthor('')
@@ -97,15 +101,19 @@ const App = () => {
       <div>
         <h2>Blogs</h2>
         <User user={user} logout={logout} />
-        <BlogForm
-          submit={addBlog}
-          titleValue={title}
-          onTitleChange={handleTitleChange}
-          authorValue={author}
-          onAuthorChange={handleAuthorChange}
-          urlValue={url}
-          onUrlChange={handleUrlChange} />
-        {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+        <Togglable buttonLabel='add blog entry' ref={blogFormRef}>
+          <BlogForm
+            submit={addBlog}
+            titleValue={title}
+            onTitleChange={handleTitleChange}
+            authorValue={author}
+            onAuthorChange={handleAuthorChange}
+            urlValue={url}
+            onUrlChange={handleUrlChange} />
+        </Togglable>
+        <ul>
+          {blogs.map(blog => <li key={blog.id}><Blog blog={blog} /></li>)}
+        </ul>
       </div>
     )
 

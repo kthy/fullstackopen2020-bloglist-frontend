@@ -11,11 +11,8 @@ import loginService from './services/login'
 const tokenKey = 'validatedBloglistUser'
 
 const App = () => {
-  const [ author, setAuthor ] = useState('')
   const [ blogs, setBlogs ] = useState([])
   const [ password, setPassword ] = useState('')
-  const [ title, setTitle ] = useState('')
-  const [ url, setUrl ] = useState('')
   const [ user, setUser ] = useState(null)
   const [ username, setUsername ] = useState('')
 
@@ -47,18 +44,17 @@ const App = () => {
     setTimeout(() => setNotificationMessage(null), 5000)
   }
 
-  const addBlog = async (event) => {
+  const addBlog = async (event, blogObj) => {
     event.preventDefault()
     try {
-      const blog = await blogService.create({ author, title, url })
+      const blog = await blogService.create(blogObj)
       blogFormRef.current.toggleVisibility()
       setBlogs(blogs.concat(blog))
       setNotification(`Added ${blog.title} by ${blog.author}`)
-      setAuthor('')
-      setTitle('')
-      setUrl('')
+      return true
     } catch (exception) {
       setNotification(exception.response.data.error, true)
+      return false
     }
   }
 
@@ -82,10 +78,7 @@ const App = () => {
     setUser(null)
   }
 
-  const handleAuthorChange = (event) => setAuthor(event.target.value)
   const handlePasswordChange = (event) => setPassword(event.target.value)
-  const handleTitleChange = (event) => setTitle(event.target.value)
-  const handleUrlChange = (event) => setUrl(event.target.value)
   const handleUsernameChange = (event) => setUsername(event.target.value)
 
   const pageContent = user === null
@@ -102,14 +95,7 @@ const App = () => {
         <h2>Blogs</h2>
         <User user={user} logout={logout} />
         <Togglable buttonLabel='add blog entry' ref={blogFormRef}>
-          <BlogForm
-            submit={addBlog}
-            titleValue={title}
-            onTitleChange={handleTitleChange}
-            authorValue={author}
-            onAuthorChange={handleAuthorChange}
-            urlValue={url}
-            onUrlChange={handleUrlChange} />
+          <BlogForm submitFunc={addBlog} />
         </Togglable>
         <ul>
           {blogs.map(blog => <li key={blog.id}><Blog blog={blog} /></li>)}

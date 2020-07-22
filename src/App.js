@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import User from './components/User'
@@ -9,8 +10,11 @@ import loginService from './services/login'
 const tokenKey = 'validatedBloglistUser'
 
 const App = () => {
+  const [ author, setAuthor ] = useState('')
   const [ blogs, setBlogs ] = useState([])
   const [ password, setPassword ] = useState('')
+  const [ title, setTitle ] = useState('')
+  const [ url, setUrl ] = useState('')
   const [ user, setUser ] = useState(null)
   const [ username, setUsername ] = useState('')
 
@@ -37,6 +41,21 @@ const App = () => {
   const setNotification = (msg, isError=false) => {
     setNotificationIsError(isError)
     setNotificationMessage(msg)
+    setTimeout(() => setNotificationMessage(null), 5000)
+  }
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const blog = await blogService.create({ author, title, url })
+      setBlogs(blogs.concat(blog))
+      setNotification(`Added ${blog.title} by ${blog.author}`)
+      setAuthor('')
+      setTitle('')
+      setUrl('')
+    } catch (exception) {
+      setNotification(exception.response.data.error, true)
+    }
   }
 
   const login = async (event) => {
@@ -59,7 +78,10 @@ const App = () => {
     setUser(null)
   }
 
+  const handleAuthorChange = (event) => setAuthor(event.target.value)
   const handlePasswordChange = (event) => setPassword(event.target.value)
+  const handleTitleChange = (event) => setTitle(event.target.value)
+  const handleUrlChange = (event) => setUrl(event.target.value)
   const handleUsernameChange = (event) => setUsername(event.target.value)
 
   const pageContent = user === null
@@ -75,6 +97,14 @@ const App = () => {
       <div>
         <h2>Blogs</h2>
         <User user={user} logout={logout} />
+        <BlogForm
+          submit={addBlog}
+          titleValue={title}
+          onTitleChange={handleTitleChange}
+          authorValue={author}
+          onAuthorChange={handleAuthorChange}
+          urlValue={url}
+          onUrlChange={handleUrlChange} />
         {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
       </div>
     )

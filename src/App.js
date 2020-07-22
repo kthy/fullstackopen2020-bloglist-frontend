@@ -6,6 +6,8 @@ import User from './components/User'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+const tokenKey = 'validatedBloglistUser'
+
 const App = () => {
   const [ blogs, setBlogs ] = useState([])
   const [ password, setPassword ] = useState('')
@@ -23,6 +25,15 @@ const App = () => {
     getBlogs()
   }, [])
 
+  useEffect(() => {
+    const userJSON = window.localStorage.getItem(tokenKey)
+    if (userJSON) {
+      const usr = JSON.parse(userJSON)
+      setUser(usr)
+      blogService.setToken(usr.token)
+    }
+  }, [])
+
   const setNotification = (msg, isError=false) => {
     setNotificationIsError(isError)
     setNotificationMessage(msg)
@@ -32,12 +43,20 @@ const App = () => {
     event.preventDefault()
     try {
       const usr = await loginService.login({ username, password })
+      window.localStorage.setItem(tokenKey, JSON.stringify(usr))
+      blogService.setToken(usr.token)
       setUser(usr)
       setUsername('')
       setPassword('')
     } catch (exception) {
       setNotification(exception.response.data.error, true)
     }
+  }
+
+  const logout = () => {
+    window.localStorage.removeItem(tokenKey)
+    blogService.clearToken()
+    setUser(null)
   }
 
   const handlePasswordChange = (event) => setPassword(event.target.value)
@@ -55,7 +74,7 @@ const App = () => {
     : (
       <div>
         <h2>Blogs</h2>
-        <User user={user} />
+        <User user={user} logout={logout} />
         {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
       </div>
     )

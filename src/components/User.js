@@ -1,11 +1,10 @@
 import React from 'react'
-import loginService from '../services/login'
 import Button from './Button'
 
-const User = ({ user }) => {
+const User = ({ user, logout }) => {
   return (
     <p>
-      {user.name} is logged in <Button whenClicked={loginService.logout} label="logout" />
+      {user.name} is logged in <Button whenClicked={logout} label="logout" />
     </p>
   )
 }

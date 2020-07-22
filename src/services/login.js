@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 const baseUrl = '/api/login'
 
 const login = async (userObj) => {
@@ -6,8 +7,4 @@ const login = async (userObj) => {
   return response.data
 }
 
-const logout = () => {
-  console.log('TODO: logout')
-}
-
-export default { login, logout }
+export default { login }

@@ -116,7 +116,7 @@ const App = () => {
       <div>
         <h2>Blogs</h2>
         <User user={user} logout={logout} />
-        <Togglable buttonLabel='add blog entry' ref={blogFormRef}>
+        <Togglable hideLabel='cancel' showLabel='add blog entry' ref={blogFormRef}>
           <BlogForm submitFunc={addBlog} />
         </Togglable>
         <Blogs blogs={blogs} currentUser={user.username} del={delBlog} like={likeBlog} />

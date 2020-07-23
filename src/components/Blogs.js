@@ -4,20 +4,31 @@ import Blog from './Blog'
 import Button from './Button'
 
 const Blogs = ({ blogs, currentUser, del, like }) => {
+  const blogStyle = {
+    paddingTop: 8,
+    paddingRight: 4,
+    paddingBottom: 4,
+    paddingLeft: 8,
+    border: 'solid',
+    borderWidth: 1,
+    marginTop: 4,
+    marginBottom: 8
+  }
+
   const showDelButton = blog => (blog.user && blog.user.username === currentUser)
 
   return (
-    <ul>
+    <>
       {blogs.map(blog => {
         return(
-          <li key={blog.id}>
+          <div key={blog.id} style={blogStyle}>
             <Blog blog={blog} />
-            <Button whenClicked={() => like(blog)} label="+1" />
-            {showDelButton(blog) ? <Button whenClicked={() => del(blog)} label="delete" /> : null}
-          </li>
+            <Button whenClicked={() => like(blog)} label='+1' />
+            {showDelButton(blog) ? <Button whenClicked={() => del(blog)} label='delete' /> : null}
+          </div>
         )
       })}
-    </ul>
+    </>
   )
 }
 

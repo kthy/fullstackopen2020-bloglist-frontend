@@ -30,7 +30,7 @@ const BlogForm = ({ submitFunc }) => {
           url: <input value={url} onChange={(event) => setUrl(event.target.value)} />
         </div>
         <div>
-          <button type="submit">save</button>
+          <button type='submit'>save</button>
         </div>
       </form>
     </div>

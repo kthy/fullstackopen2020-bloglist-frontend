@@ -6,6 +6,7 @@ module.exports = {
   },
   "extends": [
     "eslint:recommended",
+    "plugin:cypress/recommended",
     "plugin:react/recommended"
   ],
   "parserOptions": {
@@ -16,7 +17,7 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins": [
-    "react", "jest"
+    "cypress", "jest", "react"
   ],
   "rules": {
     "indent": [

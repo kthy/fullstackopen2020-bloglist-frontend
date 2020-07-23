@@ -17,14 +17,14 @@ const Notification = ({ message, isError }) => {
     fontWeight: 'bold'
   }
 
-  const normalStyle = {
+  const infoStyle = {
     ...baseStyle,
     color: 'green',
     fontStyle: 'italic'
   }
 
   return (
-    <div style={isError ? errorStyle : normalStyle}>
+    <div className={isError ? 'error' : 'info'} style={isError ? errorStyle : infoStyle}>
       {message}
     </div>
   )

@@ -1,2 +1,3 @@
 build
+cypress/plugins/index.js
 node_modules

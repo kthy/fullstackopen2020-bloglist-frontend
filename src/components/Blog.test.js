@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -34,6 +34,27 @@ describe('<Blog />', () => {
     expect(
       component.container.querySelector('.blogDetails')
     ).not.toBeVisible()
+    expect(
+      component.container.querySelector('.blogLikes')
+    ).not.toBeVisible()
+    expect(
+      component.container.querySelector('.blogUrl')
+    ).not.toBeVisible()
+  })
+
+  test('renders details after the `view` button has been clicked', () => {
+    const button = component.getByText('view')
+    fireEvent.click(button)
+
+    expect(
+      component.container.querySelector('.blogDetails')
+    ).toBeVisible()
+    expect(
+      component.container.querySelector('.blogLikes')
+    ).toBeVisible()
+    expect(
+      component.container.querySelector('.blogUrl')
+    ).toBeVisible()
   })
 
 })

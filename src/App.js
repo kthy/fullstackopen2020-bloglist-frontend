@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Blog from './components/Blog'
+import Blogs from './components/Blogs'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
@@ -59,6 +59,18 @@ const App = () => {
     }
   }
 
+  const delBlog = async (blog) => {
+    if (window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
+      try {
+        await blogService.del(blog.id)
+        setBlogs(blogs.filter(b => b.id !== blog.id))
+        setNotification(`Deleted ${blog.title} by ${blog.author}`)
+      } catch (exception) {
+        setNotification(exception.response.data.error, true)
+      }
+    }
+  }
+
   const login = async (event) => {
     event.preventDefault()
     try {
@@ -98,9 +110,7 @@ const App = () => {
         <Togglable buttonLabel='add blog entry' ref={blogFormRef}>
           <BlogForm submitFunc={addBlog} />
         </Togglable>
-        <ul>
-          {blogs.map(blog => <li key={blog.id}><Blog blog={blog} /></li>)}
-        </ul>
+        <Blogs blogs={blogs} del={delBlog} currentUser={user.username} />
       </div>
     )
 

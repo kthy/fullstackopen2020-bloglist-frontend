@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Blog from './Blog'
 import Button from './Button'
 
-const Blogs = ({ blogs, del, currentUser }) => {
+const Blogs = ({ blogs, currentUser, del, like }) => {
   const showDelButton = blog => (blog.user && blog.user.username === currentUser)
 
   return (
@@ -11,7 +11,9 @@ const Blogs = ({ blogs, del, currentUser }) => {
       {blogs.map(blog => {
         return(
           <li key={blog.id}>
-            <Blog blog={blog} /> {showDelButton(blog) ? <Button whenClicked={() => del(blog)} label="delete" /> : null}
+            <Blog blog={blog} />
+            <Button whenClicked={() => like(blog)} label="+1" />
+            {showDelButton(blog) ? <Button whenClicked={() => del(blog)} label="delete" /> : null}
           </li>
         )
       })}
@@ -21,8 +23,9 @@ const Blogs = ({ blogs, del, currentUser }) => {
 
 Blogs.propTypes = {
   blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
-  del: PropTypes.func.isRequired,
   currentUser: PropTypes.string.isRequired,
+  del: PropTypes.func.isRequired,
+  like: PropTypes.func.isRequired,
 }
 
 export default Blogs

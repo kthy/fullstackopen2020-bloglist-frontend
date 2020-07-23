@@ -71,6 +71,15 @@ const App = () => {
     }
   }
 
+  const likeBlog = async (blog) => {
+    try {
+      const updatedBlog = await blogService.update({ ...blog, likes: blog.likes + 1 })
+      setBlogs(blogs.filter(b => b.id !== blog.id).concat(updatedBlog).sort((a, b) => b.likes - a.likes))
+    } catch (exception) {
+      setNotification(exception.response.data.error, true)
+    }
+  }
+
   const login = async (event) => {
     event.preventDefault()
     try {
@@ -110,7 +119,7 @@ const App = () => {
         <Togglable buttonLabel='add blog entry' ref={blogFormRef}>
           <BlogForm submitFunc={addBlog} />
         </Togglable>
-        <Blogs blogs={blogs} del={delBlog} currentUser={user.username} />
+        <Blogs blogs={blogs} currentUser={user.username} del={delBlog} like={likeBlog} />
       </div>
     )
 

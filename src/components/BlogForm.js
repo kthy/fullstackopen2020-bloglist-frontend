@@ -7,6 +7,7 @@ const BlogForm = ({ submitFunc }) => {
   const [ url, setUrl ] = useState('')
 
   const onSubmit = async (event) => {
+    event.preventDefault()
     const blogObj = { author, title, url }
     const blogAdded = await submitFunc(event, blogObj)
     if (blogAdded) {
@@ -21,13 +22,13 @@ const BlogForm = ({ submitFunc }) => {
       <h2>Create new entry</h2>
       <form onSubmit={onSubmit}>
         <div>
-          title: <input value={title} onChange={(event) => setTitle(event.target.value)} />
+          title: <input id='blogFormTitle' value={title} onChange={(event) => setTitle(event.target.value)} />
         </div>
         <div>
-          author: <input value={author} onChange={(event) => setAuthor(event.target.value)} />
+          author: <input id='blogFormAuthor' value={author} onChange={(event) => setAuthor(event.target.value)} />
         </div>
         <div>
-          url: <input value={url} onChange={(event) => setUrl(event.target.value)} />
+          url: <input id='blogFormUrl' value={url} onChange={(event) => setUrl(event.target.value)} />
         </div>
         <div>
           <button type='submit'>save</button>

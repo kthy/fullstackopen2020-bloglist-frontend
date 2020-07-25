@@ -49,6 +49,11 @@ describe('Bloglist app', function() {
       cy.contains(title)
     })
 
+    it('can be deleted again', function() {
+      cy.contains('delete').click()
+      cy.contains('Deleted TDD harms architecture by Robert C. Martin')
+    })
+
     it('a blog entry can be liked', function() {
       cy.addBlogAndVisit()
       cy.contains('view').click()

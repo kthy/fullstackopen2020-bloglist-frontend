@@ -22,13 +22,13 @@ const BlogForm = ({ submitFunc }) => {
       <h2>Create new entry</h2>
       <form onSubmit={onSubmit}>
         <div>
-          title: <input id='blogFormTitle' value={title} onChange={(event) => setTitle(event.target.value)} />
+          title: <input id='blogFormTitle' autoComplete='off' value={title} onChange={(event) => setTitle(event.target.value)} />
         </div>
         <div>
-          author: <input id='blogFormAuthor' value={author} onChange={(event) => setAuthor(event.target.value)} />
+          author: <input id='blogFormAuthor' autoComplete='off' value={author} onChange={(event) => setAuthor(event.target.value)} />
         </div>
         <div>
-          url: <input id='blogFormUrl' value={url} onChange={(event) => setUrl(event.target.value)} />
+          url: <input id='blogFormUrl' autoComplete='off' value={url} onChange={(event) => setUrl(event.target.value)} />
         </div>
         <div>
           <button type='submit'>save</button>

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Button = ({ whenClicked, label }) => <button onClick={whenClicked}>{label}</button>
+const Button = ({ label, whenClicked }) => <button onClick={whenClicked}>{label}</button>
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,

@@ -4,7 +4,7 @@ import Button from './Button'
 const User = ({ user, logout }) => {
   return (
     <p>
-      {user.name} is logged in <Button whenClicked={logout} label='logout' />
+      {user.name} is logged in <Button label='logout' whenClicked={logout} />
     </p>
   )
 }

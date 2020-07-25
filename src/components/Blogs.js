@@ -23,8 +23,8 @@ const Blogs = ({ blogs, currentUser, del, like }) => {
         return(
           <div key={blog.id} style={blogStyle}>
             <Blog blog={blog} />
-            <Button whenClicked={() => like(blog)} label='+1' />
-            {showDelButton(blog) ? <Button whenClicked={() => del(blog)} label='delete' /> : null}
+            <Button label='+1' whenClicked={() => like(blog)} />
+            {showDelButton(blog) ? <Button label='delete' whenClicked={() => del(blog)} /> : null}
           </div>
         )
       })}

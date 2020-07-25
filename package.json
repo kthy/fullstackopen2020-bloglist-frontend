@@ -17,7 +17,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test",
-    "test:e2e": "cypress run",
+    "test:e2e": "cross-env CYPRESS_RECORD_KEY=629edce3-f034-4acf-90c8-8c68cf4bef0d cypress run --record",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open"
   },
@@ -41,6 +41,7 @@
     "cross-env": "^7.0.2",
     "crypto-random-string": "^3.2.0",
     "cypress": "^4.11.0",
+    "cypress-log-to-output": "^1.0.8",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-jest": "^23.18.0"
   }

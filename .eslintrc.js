@@ -38,6 +38,10 @@ module.exports = {
     ],
     "eqeqeq": "error",
     "no-trailing-spaces": "error",
+    'no-unused-vars': [
+      'error',
+      { 'args': 'all', 'argsIgnorePattern': '^_' }
+    ],
     "object-curly-spacing": [
       "error", "always"
     ],

@@ -21,7 +21,7 @@ Cypress.Commands.add('loginAndVisit', ({ username, password }) => {
     })
 })
 
-Cypress.Commands.add('addBlogAndVisit', () => {
+Cypress.Commands.add('addBlog', (likes) => {
   const token = JSON.parse(localStorage.getItem(tokenKey)).token
   cy
     .request({
@@ -35,8 +35,10 @@ Cypress.Commands.add('addBlogAndVisit', () => {
       body: {
         author: `${word(10)} ${word(1)}. ${word(24)}`,
         title: [randomInt(10), randomInt(10), randomInt(10), randomInt(10)].map(word).join(' '),
-        url: `http://www.${word(32, false)}.com/${word(12, false)}.html`
+        url: `http://www.${word(32, false)}.com/${word(12, false)}.html`,
+        likes
       }
     })
-    .then(_ => cy.visit('/'))
 })
+
+Cypress.Commands.add('addBlogAndVisit', (likes) => cy.addBlog(likes).then(_ => cy.visit('/')))

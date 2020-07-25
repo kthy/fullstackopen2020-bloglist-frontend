@@ -63,5 +63,21 @@ describe('Bloglist app', function() {
       cy.contains('view').click()
       cy.contains('Likes: 1')
     })
+
+    it('blog entries are sorted from most to least likes', function() {
+      cy.addBlog(7)
+      cy.addBlogAndVisit(13)
+      cy.get('.blogLikes').as('blogLikes')
+      cy.get('@blogLikes').should('have.length', 3)
+      const likes = []
+      cy
+        .get('@blogLikes')
+        .each(like => likes.push(like.text()))
+        .then(_ => expect(likes).to.deep.eq([
+          'Likes: 13',
+          'Likes: 7',
+          'Likes: 1'
+        ]))
+    })
   })
 })
